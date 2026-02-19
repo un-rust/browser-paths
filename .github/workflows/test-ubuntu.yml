@@ -1,0 +1,142 @@
+name: Test Ubuntu
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-ubuntu-stable:
+    name: test ubuntu stable
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install Microsoft Edge Stable
+        run: |
+          set -eux
+          wget -qO- https://packages.microsoft.com/keys/microsoft.asc \
+            | gpg --dearmor \
+            | sudo tee /usr/share/keyrings/microsoft-edge.gpg > /dev/null
+
+          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-edge.gpg] https://packages.microsoft.com/repos/edge stable main" \
+            | sudo tee /etc/apt/sources.list.d/microsoft-edge.list
+
+          sudo apt-get update
+          sudo apt-get install -y microsoft-edge-stable
+      - name: Install Google Chrome Stable
+        run: |
+          set -eux
+          wget -qO- https://dl.google.com/linux/linux_signing_key.pub \
+            | sudo gpg --dearmor -o /usr/share/keyrings/google-linux.gpg
+
+          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux.gpg] http://dl.google.com/linux/chrome/deb/ stable main" \
+            | sudo tee /etc/apt/sources.list.d/google-chrome.list
+
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+      - name: Run tests
+        run: cargo test stable -- --show-output
+
+  test-ubuntu-dev:
+    name: test ubuntu dev
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install Microsoft Edge Dev
+        run: |
+          set -eux
+          wget -qO- https://packages.microsoft.com/keys/microsoft.asc \
+            | gpg --dearmor \
+            | sudo tee /usr/share/keyrings/microsoft-edge.gpg > /dev/null
+
+          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-edge.gpg] https://packages.microsoft.com/repos/edge stable main" \
+            | sudo tee /etc/apt/sources.list.d/microsoft-edge.list
+
+          sudo apt-get update
+          sudo apt-get install -y microsoft-edge-dev
+      - name: Install Google Chrome Dev
+        run: |
+          set -eux
+          # Add Google Chrome APT repository
+          wget -qO- https://dl.google.com/linux/linux_signing_key.pub \
+            | sudo gpg --dearmor -o /usr/share/keyrings/google-linux.gpg
+
+          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux.gpg] http://dl.google.com/linux/chrome/deb/ stable main" \
+            | sudo tee /etc/apt/sources.list.d/google-chrome.list
+
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-unstable
+      - name: Run tests
+        run: cargo test dev -- --show-output
+
+  test-ubuntu-beta:
+    name: test ubuntu beta
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install Microsoft Edge Beta
+        run: |
+          set -eux
+          wget -qO- https://packages.microsoft.com/keys/microsoft.asc \
+            | gpg --dearmor \
+            | sudo tee /usr/share/keyrings/microsoft-edge.gpg > /dev/null
+
+          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-edge.gpg] https://packages.microsoft.com/repos/edge stable main" \
+            | sudo tee /etc/apt/sources.list.d/microsoft-edge.list
+
+          sudo apt-get update
+          sudo apt-get install -y microsoft-edge-beta
+      # TODO: Add Google Chrome Beta installation
+      # - name: Install Google Chrome Beta
+      #   run: |
+      #     set -eux
+      #     # Add Google Chrome APT repository
+      #     wget -qO- https://dl.google.com/linux/linux_signing_key.pub \
+      #       | sudo gpg --dearmor -o /usr/share/keyrings/google-linux.gpg
+
+      #     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux.gpg] http://dl.google.com/linux/chrome/deb/ stable main" \
+      #       | sudo tee /etc/apt/sources.list.d/google-chrome.list
+
+      #     sudo apt-get update
+      #     sudo apt-get install -y google-chrome-beta
+      - name: Run tests
+        run: cargo test beta -- --show-output
+
+  test-ubuntu-canary:
+    name: test ubuntu canary
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      # TODO: Add Microsoft Edge Canary installation
+      # - name: Install Microsoft Edge Canary
+      #   run: |
+      #     set -eux
+      #     wget -qO- https://packages.microsoft.com/keys/microsoft.asc \
+      #       | gpg --dearmor \
+      #       | sudo tee /usr/share/keyrings/microsoft-edge.gpg > /dev/null
+
+      #     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-edge.gpg] https://packages.microsoft.com/repos/edge stable main" \
+      #       | sudo tee /etc/apt/sources.list.d/microsoft-edge.list
+
+      #     sudo apt-get update
+      #     sudo apt-get install -y microsoft-edge-canary
+      - name: Install Google Chrome Canary
+        run: |
+          set -eux
+          # Add Google Chrome APT repository
+          wget -qO- https://dl.google.com/linux/linux_signing_key.pub \
+            | sudo gpg --dearmor -o /usr/share/keyrings/google-linux.gpg
+
+          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux.gpg] http://dl.google.com/linux/chrome/deb/ stable main" \
+            | sudo tee /etc/apt/sources.list.d/google-chrome.list
+
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-canary
+      - name: Run tests
+        run: cargo test canary -- --show-output

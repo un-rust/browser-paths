@@ -1,0 +1,33 @@
+name: Test Windows
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-windows:
+    name: test windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install Firefox (Stable, Dev, Beta, Nightly)
+        run: |
+          choco install firefox -y
+          choco install firefox-dev -y
+          choco install firefox-beta -y
+          choco install firefox-nightly -y
+      - name: Install Microsoft Edge (Stable, Dev, Beta)
+        # no canary version available
+        run: |
+          choco install microsoft-edge -y
+          choco install microsoft-edge-insider-dev -y
+          choco install microsoft-edge-insider -y
+      - name: Install Google Chrome (Stable, Dev, Beta, Canary)
+        run: |
+          choco install googlechrome -y
+          choco install googlechromedev --pre -y
+          choco install googlechromebeta --pre -y
+          choco install googlechromecanary --pre -y
+      - name: Run tests
+        run: cargo test -- --show-output

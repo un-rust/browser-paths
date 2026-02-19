@@ -1,0 +1,61 @@
+name: Test MacOS
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-macos-stable:
+    name: test macos stable
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install Microsoft Edge Stable
+        run: brew install --cask microsoft-edge
+      - name: Install Google Chrome Stable
+        run: brew install --cask google-chrome
+      - name: Run tests
+        run: cargo test stable -- --show-output
+
+  test-macos-dev:
+    name: test macos dev
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install Microsoft Edge Dev
+        run: brew install --cask microsoft-edge@dev
+      - name: Install Google Chrome Dev
+        run: brew install --cask google-chrome@dev
+      - name: Run tests
+        run: cargo test dev -- --show-output
+
+  test-macos-beta:
+    name: test macos beta
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install Microsoft Edge Beta
+        run: brew install --cask microsoft-edge@beta
+      - name: Install Google Chrome Beta
+        run: brew install --cask google-chrome@beta
+      - name: Run tests
+        run: cargo test beta -- --show-output
+
+  test-macos-canary:
+    name: test macos canary
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install Microsoft Edge Canary
+        run: brew install --cask microsoft-edge@canary
+      - name: Install Google Chrome Canary
+        run: brew install --cask google-chrome@canary
+      - name: Run tests
+        run: cargo test canary -- --show-output
