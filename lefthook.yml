@@ -1,0 +1,27 @@
+output:
+  - execution
+  - failure
+
+pre-commit:
+  parallel: true
+  commands:
+    clippy:
+      run: pnpm lint
+      glob: "*.rs"
+      文件: git diff --name-only --cached -- "*.rs"
+
+    fmt:
+      run: pnpm format
+      glob: "*.rs"
+      文件: git diff --name-only --cached -- "*.rs"
+      stage_fixed: true
+
+    format_ts:
+      run: pnpm format:ts {staged_files}
+      文件: git diff --name-only --cached
+      stage_fixed: true
+
+commit-msg:
+  commands:
+    commitlint:
+      run: npx --no -- commitlint --edit $1

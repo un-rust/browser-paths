@@ -1,0 +1,40 @@
+{
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "cargo build",
+    "commit": "cz",
+    "format": "cargo fmt",
+    "format:ts": "prettier --write .",
+    "lint": "cargo clippy",
+    "prepare": "lefthook install",
+    "sync-version": "node ./scripts/syncVersion.ts",
+    "release": "changelogen --clean --release --push --patch && pnpm sync-version",
+    "release:major": "changelogen --clean --release --push --major",
+    "release:minor": "changelogen --clean --release --push --minor",
+    "release:patch": "changelogen --clean --release --push --patch",
+    "test": "cargo test",
+    "test:coverage": "cargo tarpaulin --fail-under 95 --exclude-files 'src/main.rs'"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "20.4.1",
+    "@commitlint/config-conventional": "20.4.1",
+    "@commitlint/types": "20.4.0",
+    "@iarna/toml": "2.2.5",
+    "@types/node": "25.2.3",
+    "changelogen": "0.6.2",
+    "commitizen": "4.3.1",
+    "cz-conventional-changelog": "3.3.0",
+    "husky": "9.1.7",
+    "lefthook": "2.1.1",
+    "prettier": "3.8.1",
+    "simple-git": "3.31.1",
+    "typescript": "5.9.3"
+  },
+  "packageManager": "pnpm@10.28.0"
+}
