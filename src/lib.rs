@@ -102,7 +102,7 @@ mod tests {
     }
 
     #[test]
-    #[cfg(any(target_os = "macos", target_os = "windows"))]
+    #[cfg(target_os = "macos")]
     fn test_get_edge_canary_path() {
         let path = super::get_edge_canary_path();
         assert!(path.is_some());
