@@ -66,6 +66,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(any(target_os = "macos", target_os = "windows"))]
     fn test_get_chrome_beta_path() {
         let path = super::get_chrome_beta_path();
         assert!(path.is_some());
@@ -101,6 +102,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(any(target_os = "macos", target_os = "windows"))]
     fn test_get_edge_canary_path() {
         let path = super::get_edge_canary_path();
         assert!(path.is_some());
