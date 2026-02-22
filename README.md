@@ -10,7 +10,7 @@
 
 <!-- automdrs:description -->
 
-A template for a new Rust project
+Get the path of the browser, support Chrome and Edge.
 
 <!-- /automdrs -->
 
