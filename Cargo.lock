@@ -59,9 +59,9 @@ dependencies = [
 
 [[package]]
 name = "urlogger"
-version = "1.0.0"
+version = "1.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "152240b51591b7142b70cfee7f7aa771ddad9fc191b160b44d2474ebc8589ad4"
+checksum = "bc57076306ce2afc8b31eda878a9327997564524e3ebe13c70e03aed47c7e399"
 
 [[package]]
 name = "which"
