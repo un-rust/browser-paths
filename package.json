@@ -1,5 +1,5 @@
 {
-	"name": "package-name",
+	"name": "browser-paths",
 	"type": "module",
 	"scripts": {
 		"build": "cargo build",
